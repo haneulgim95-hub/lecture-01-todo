@@ -12,9 +12,9 @@ function App() {
         // event라고 하는, Javascript 엔진이 분석한 사건 내용을 가지고 보니
         // event.target.value 하는 값에 input에 입력된 값이 들어 있드라
         setTodo(e.target.value);
-    }
+    };
 
-    const onSubmit = (e) => {
+    const onSubmit = e => {
         // chrome 같은 웹브라우저는 기본적으로, onSubmit이 내장되어있는 기능이 이미 존재함
         // 무슨 기능이냐면, input의 내용물을 전송하고 새로고침하는 기능(새로고침한다는건 todo가 날라가버리는 것이다.)
         // 그래서 이 기능을 무효화 시킬 필요가 있음 -> e.preventDefault();
@@ -32,8 +32,17 @@ function App() {
         // 2. todo의 값을 삭제하고
         setTodo("");
         // 3. input에 입력된 값도 삭제해야함   -> input이라고 하는 태그의 value 속성을 비워줘야 되는 일
+    };
 
-    }
+    const deleteTodo = (index) => {
+        // 우리가 삭제해야 되는 것은 index로 접근할 수 있음. 훨씬 위에 있는 list에서
+        // 우리가 삭제하려는 list의 인덱스 번호 : index, filter를 통해 걸러내려는 인덱스 번호 : i
+        setList(
+            list.filter((v, i) => {
+                return i !== index;
+            }),
+        );
+    };
 
     return (
         <div>
@@ -70,7 +79,15 @@ function App() {
                                                         그 값은 유일값을 넣어줘야 함
                 */}
                 {list.map((value, index) => {
-                    return <li key={index}>{value}</li>
+                    return (
+                        <li key={index}>
+                            {value}{" "}
+                            <button
+                                onClick={() => deleteTodo(index)}>
+                                ❌
+                            </button>
+                        </li>
+                    );
                 })}
             </ul>
         </div>
